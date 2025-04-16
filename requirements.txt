@@ -1,6 +1,7 @@
 # Core packages
-Django==4.2.7
-djangorestframework==3.14.0
+django
+# django-admin
+djangorestframework
 
 # Dependencies
 asgiref==3.7.2
@@ -8,9 +9,9 @@ pytz==2023.3.post1
 sqlparse==0.4.4
 python-dotenv
 
-# Development tools (optional)
-django-debug-toolbar==4.2.0
-django-cors-headers==4.3.0 
+# MongoDB dependencies
+pymongo
+django-mongodb-backend
 
 # AI Conversation dependencies
 langchain-core

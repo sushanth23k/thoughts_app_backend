@@ -52,3 +52,5 @@ git add . && git commit -a -m "commit" && git push
 [Backend Frameworks for AI Development in 2024](https://medium.com/@cubode/whats-the-best-backend-framework-for-ai-development-in-2024-django-fastapi-or-flask-d52c165ea20c)
 
 [Cheap Solutions for Databases](https://medium.com/@soumitsr/a-broke-b-chs-guide-to-tech-start-up-choosing-vector-database-cloud-serverless-prices-3c1ad4c29ce7)
+
+[Djnago and MongoDB Connection](https://www.youtube.com/watch?v=laXann1O0cg)

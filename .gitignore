@@ -7,3 +7,12 @@
 # Ignore all files in the .venv directory
 venv
 
+# Ignore all files that start with a dot (.)
+.DS_Store
+.*
+._*
+!.gitignore
+
+# Ignore all files in the __pycache__ directory
+__pycache__
+*__pycache__

@@ -3,6 +3,9 @@ Django settings for thoughts_project project.
 """
 
 from pathlib import Path
+import os
+import django_mongodb_backend
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'thoughts',
+    'thoughts'
 ]
 
 MIDDLEWARE = [
@@ -60,10 +63,16 @@ WSGI_APPLICATION = 'thoughts_project.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_mongodb_backend',
+        'NAME': os.getenv('mongodb_database'),
+        'CLIENT': {
+            'host': os.getenv('mongodb_connection_url'),
+            'ssl': True,
+            'ssl_cert_reqs': 'CERT_NONE',
+        }
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
