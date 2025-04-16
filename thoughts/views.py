@@ -11,7 +11,7 @@ from test_components import nosql_db
 
 
 # Initialize MongoDB connection
-# mg_client = nosql_db.get_mongodb_connection()
+mg_client = nosql_db.get_mongodb_connection()
 
 # Initialize Redis connection
 # redis_client = redis.Redis(host='localhost', port=6379, db=0)
