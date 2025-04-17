@@ -5,7 +5,10 @@ Django settings for thoughts_project project.
 from pathlib import Path
 import os
 import django_mongodb_backend
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,15 +65,9 @@ WSGI_APPLICATION = 'thoughts_project.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django_mongodb_backend',
-        'NAME': os.getenv('mongodb_database'),
-        'CLIENT': {
-            'host': os.getenv('mongodb_connection_url'),
-            'ssl': True,
-            'ssl_cert_reqs': 'CERT_NONE',
-        }
-    }
+    'default':  django_mongodb_backend.parse_uri(
+        os.getenv('mongodb_connection_url'), db_name=os.getenv('mongodb_database')
+    ),
 }
 
 

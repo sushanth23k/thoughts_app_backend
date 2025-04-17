@@ -1,9 +1,8 @@
-# Core packages
+# Django dependencies
 django
-# django-admin
 djangorestframework
 
-# Dependencies
+# Basic dependencies
 asgiref==3.7.2
 pytz==2023.3.post1
 sqlparse==0.4.4
@@ -13,9 +12,17 @@ python-dotenv
 pymongo
 django-mongodb-backend
 
-# AI Conversation dependencies
+# Redis dependencies
+redis
+
+# Groq dependencies
+groq
+
+# Deepgram dependencies
+deepgram-sdk
+
+# Other AI dependencies
 langchain-core
 langchain-groq
 langchain
 pydantic
-redis
