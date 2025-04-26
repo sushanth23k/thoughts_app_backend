@@ -47,6 +47,9 @@ find . -name "._*" -type f -delete
 # Git commit and push command
 git add . && git commit -a -m "commit" && git push
 
+# Port Auido Module
+brew install portaudio
+
 ## Articles for Reference
 
 [Backend Frameworks for AI Development in 2024](https://medium.com/@cubode/whats-the-best-backend-framework-for-ai-development-in-2024-django-fastapi-or-flask-d52c165ea20c)

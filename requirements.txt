@@ -26,3 +26,7 @@ langchain-core
 langchain-groq
 langchain
 pydantic
+
+# Text-to-speech dependencies
+websockets==12.0
+pyaudio==0.2.14

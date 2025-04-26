@@ -3,16 +3,20 @@
 # Import Django Libraries
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 # Import Basic Libraries
 import json
 import sys
+import asyncio
+import base64
 
 # Import Components
 sys.path.append("..")
 from components.conversation_component import ConversationComponent
 from test_components.cache_db import get_redis_connection
 from test_components.llm import get_groq_client, get_llm_response
+from test_components.tts import text_to_speech, output_audio
 
 # Import MongoDB connection
 from django.db import connections
@@ -146,3 +150,40 @@ def llm_conversation(request):
             "error": f"An error occurred: {str(e)}"
         }, status=500)
 
+# TTS API
+@api_view(['POST'])
+def tts(request):
+    try:
+        # Get text from request
+        text = request.data.get('text')
+        if not text:
+            return Response({
+                "error": "Text is required"
+            }, status=400)
+
+        try:
+            # Convert text to speech
+            audio_bytes = asyncio.run(text_to_speech(text))
+
+            # # Play audio
+            # print(output_audio(audio_bytes, text))
+
+            wav_base64 = base64.b64encode(audio_bytes).decode('utf-8')
+
+            response = JsonResponse({
+                "status": "success",
+                "audio": wav_base64
+            })
+            
+            return response
+
+        except Exception as e:
+            return Response({
+                "error": f"An error occurred: {str(e)}"
+            }, status=500)
+
+        
+    except Exception as e:
+        return Response({
+            "error": f"An error occurred: {str(e)}"
+        }, status=500)
