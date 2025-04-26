@@ -13,10 +13,9 @@ import base64
 
 # Import Components
 sys.path.append("..")
-from components.conversation_component import ConversationComponent
-from test_components.cache_db import get_redis_connection
-from test_components.llm import get_groq_client, get_llm_response
-from test_components.tts import text_to_speech, output_audio
+from components.cache_db import get_redis_connection
+from components.llm import get_groq_client, get_llm_response
+from components.tts import text_to_speech, output_audio, get_deepgram_client
 
 # Import MongoDB connection
 from django.db import connections
@@ -30,6 +29,9 @@ redis_client = get_redis_connection()
 
 # Initialize Groq client
 groq_client = get_groq_client()
+
+# Initialize Deepgram client
+deepgram_client = get_deepgram_client()
 
 # AI Conversation
 @api_view(['POST'])
@@ -163,7 +165,7 @@ def tts(request):
 
         try:
             # Convert text to speech
-            audio_bytes = asyncio.run(text_to_speech(text))
+            audio_bytes = asyncio.run(text_to_speech(deepgram_client, text))
 
             # # Play audio
             # print(output_audio(audio_bytes, text))
@@ -187,3 +189,4 @@ def tts(request):
         return Response({
             "error": f"An error occurred: {str(e)}"
         }, status=500)
+

@@ -57,3 +57,5 @@ brew install portaudio
 [Cheap Solutions for Databases](https://medium.com/@soumitsr/a-broke-b-chs-guide-to-tech-start-up-choosing-vector-database-cloud-serverless-prices-3c1ad4c29ce7)
 
 [Djnago and MongoDB Connection](https://www.youtube.com/watch?v=laXann1O0cg)
+
+[Text to Speach Deepgram](https://developers.deepgram.com/docs/python-sdk-streaming-text-to-speech)

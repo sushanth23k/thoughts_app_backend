@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
+collection = os.getenv('mongodb_collection')
 
 def get_mongodb_connection():
     """
@@ -37,6 +38,36 @@ def get_mongodb_connection():
     
     except Exception as e:
         print(f"Error connecting to MongoDB: {str(e)}")
+        raise
+
+def new_conversation(db, message):
+    """
+    Creates a new conversation in the database
+    """
+    try:
+        # Insert the message into the database
+        input_conversation = {
+            "conversation": message,
+            "thoughts": []
+        }
+        id = db[collection].insert_one(input_conversation)
+        return id.inserted_id
+    
+    except Exception as e:
+        print(f"Error inserting message into database: {str(e)}")
+        raise
+
+def store_conversation(db, conversation_id, conversation, thoughts):
+    """
+    Stores a conversation in the database
+    """
+    try:
+        # Store the conversation in the database
+        db[collection].update_one({"_id": conversation_id}, {"$set": {"conversation": conversation, "thoughts": thoughts}})
+        return True
+    
+    except Exception as e:
+        print(f"Error storing conversation in database: {str(e)}")
         raise
 
 # if __name__ == "__main__":

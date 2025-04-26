@@ -1,5 +1,6 @@
 import os
 from groq import Groq
+import langchain_groq
 
 def get_groq_client():
     """
@@ -50,6 +51,19 @@ def get_llm_response(client, conversation_data):
         print(f"Error getting LLM response: {str(e)}")
         raise
 
-# if __name__ == "__main__":
-#     groq_client = get_groq_client()
-#     print("Groq API connection test successful")
+def get_memory_response(client, conversation_memory):
+    """
+    Generates a response from the LLM based on the conversation memory
+    """
+    return "Memory Response"
+
+def get_ai_response(client, conversation_memory, thoughts):
+    """
+    Generates a response from the LLM based on the conversation data
+    """
+    ai_response = {
+        "status":"True",
+        "response": "AI Response",
+        "thoughts": ["Thought 1", "Thought 2", "Thought 3"]
+    }
+    return ai_response

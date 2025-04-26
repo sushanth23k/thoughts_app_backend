@@ -17,10 +17,25 @@ from io import BytesIO
 # Audio configuration
 RATE = 16000  # Standard sample rate for speech
 
-# Load environment variables
-load_dotenv()
+def get_deepgram_client():
+    # Get Deepgram API key from environment variables
+    DEEPGRAM_API_KEY = os.getenv('DEEPGRAM_API_KEY')
+    if not DEEPGRAM_API_KEY:
+        raise ValueError("Deepgram API key not found. Please set DEEPGRAM_API_KEY environment variable.")
+    
+    # Create a deepgram client
+    config = DeepgramClientOptions(
+        options={"speaker_playback": "false"}
+    )
+    client = DeepgramClient(DEEPGRAM_API_KEY, config)
+    
+    # asyncio.run(text_to_speech(client, "Hello, how are you?"))
+    print("Deepgram client Working")
 
-async def text_to_speech(text: str) -> bytes:
+
+    return client
+
+async def text_to_speech(client, text: str) -> bytes:
     """
     Converts text to speech using Deepgram's WebSocket API and returns audio bytes
     Args:
@@ -29,17 +44,6 @@ async def text_to_speech(text: str) -> bytes:
         bytes: Audio data in WAV format
     """
     try:
-        # Get Deepgram API key from environment variables
-        DEEPGRAM_API_KEY = os.getenv('DEEPGRAM_API_KEY')
-        if not DEEPGRAM_API_KEY:
-            raise ValueError("Deepgram API key not found. Please set DEEPGRAM_API_KEY environment variable.")
-
-        # Create a deepgram client
-        config = DeepgramClientOptions(
-            options={"speaker_playback": "false"}
-        )
-        client = DeepgramClient(DEEPGRAM_API_KEY, config)
-        
         # Create audio bytes buffer
         audio_bytes = bytearray()
         
@@ -140,10 +144,10 @@ def output_audio(wav_bytes, text):
 
     return text
 
-# Update the main test code to properly handle async operations
-if __name__ == "__main__":
-    # Test the text-to-speech functionality
-    test_text = "Hello! This is a test of the text to speech functionality."
+# # Update the main test code to properly handle async operations
+# if __name__ == "__main__":
+#     # Test the text-to-speech functionality
+#     test_text = "Hello! This is a test of the text to speech functionality."
     
-    # Create and run the event loop
-    asyncio.run(text_to_speech(test_text))
+#     # Create and run the event loop
+#     asyncio.run(text_to_speech(test_text))
