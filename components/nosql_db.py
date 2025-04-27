@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
-
+from bson.objectid import ObjectId
 collection = os.getenv('mongodb_collection')
 
 def get_mongodb_connection():
@@ -45,12 +45,15 @@ def new_conversation(db, message):
     Creates a new conversation in the database
     """
     try:
+        # Get the collection
+        coll = db.get_collection(collection)
+        
         # Insert the message into the database
         input_conversation = {
             "conversation": message,
             "thoughts": []
         }
-        id = db[collection].insert_one(input_conversation)
+        id = coll.insert_one(input_conversation)
         return id.inserted_id
     
     except Exception as e:
@@ -62,8 +65,11 @@ def store_conversation(db, conversation_id, conversation, thoughts):
     Stores a conversation in the database
     """
     try:
+        # Get the collection
+        coll = db.get_collection(collection)
+        
         # Store the conversation in the database
-        db[collection].update_one({"_id": conversation_id}, {"$set": {"conversation": conversation, "thoughts": thoughts}})
+        coll.update_one({"_id": ObjectId(conversation_id)}, {"$set": {"conversation": conversation, "thoughts": thoughts}})
         return True
     
     except Exception as e:

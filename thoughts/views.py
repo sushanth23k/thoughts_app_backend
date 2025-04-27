@@ -16,6 +16,7 @@ sys.path.append("..")
 from components.cache_db import get_redis_connection
 from components.llm import get_groq_client, get_llm_response
 from components.tts import text_to_speech, output_audio, get_deepgram_client
+from components.conversation import Conversation
 
 # Import MongoDB connection
 from django.db import connections
@@ -34,27 +35,27 @@ groq_client = get_groq_client()
 deepgram_client = get_deepgram_client()
 
 # AI Conversation
-@api_view(['POST'])
-def ai_conversation(request):
-    try:
-        # Get and validate required parameters
-        conversation_id = request.data.get('conversation_id')
-        message = request.data.get('message')
+# @api_view(['POST'])
+# def ai_conversation(request):
+#     try:
+#         # Get and validate required parameters
+#         conversation_id = request.data.get('conversation_id')
+#         message = request.data.get('message')
         
-        if not conversation_id or not message:
-            return Response({
-                "error": "Both conversation_id and message are required"
-            }, status=400)
+#         if not conversation_id or not message:
+#             return Response({
+#                 "error": "Both conversation_id and message are required"
+#             }, status=400)
            
-        conversation_component = ConversationComponent()
-        response = conversation_component.process_message(message, conversation_id)
+#         conversation_component = ConversationComponent()
+#         response = conversation_component.process_message(message, conversation_id)
         
-        return Response(response)
+#         return Response(response)
         
-    except Exception as e:
-        return Response({
-            "error": f"An error occurred: {str(e)}"
-        }, status=500)
+#     except Exception as e:
+#         return Response({
+#             "error": f"An error occurred: {str(e)}"
+#         }, status=500)
 
 
 @api_view(['GET'])
@@ -187,6 +188,51 @@ def tts(request):
         
     except Exception as e:
         return Response({
+            "error": f"An error occurred: {str(e)}"
+        }, status=500)
+
+# Conversation API
+# Start Conversation
+@api_view(['GET'])
+def start_conversation(request):
+    try:
+        # Get conversation component
+        conversation_component = Conversation(deepgram_client, groq_client, redis_client, mg_client)
+
+        # Start conversation
+        output = conversation_component.start_conversation()
+
+        # Return conversation ID
+        return JsonResponse(output)
+    
+    except Exception as e:
+        return JsonResponse({
+            "error": f"An error occurred: {str(e)}"
+        }, status=500)
+
+# Conversation Loop
+@api_view(['POST'])
+def conversation_loop(request):
+    try:
+        # Get conversation ID
+        input_data = request.data
+
+        # Get conversation ID
+        conversation_id = input_data.get('conversation_id')
+        user_message = input_data.get('user_message')
+
+        conversation_component = Conversation(deepgram_client, groq_client, redis_client, mg_client)
+        output = conversation_component.conversation_loop(conversation_id, user_message)
+
+        if output["status"] == "stop":
+            # End conversation
+            conversation_component.end_conversation(conversation_id)
+            return JsonResponse(output)
+        else:
+            return JsonResponse(output)
+    
+    except Exception as e:
+        return JsonResponse({
             "error": f"An error occurred: {str(e)}"
         }, status=500)
 

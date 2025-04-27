@@ -1,31 +1,31 @@
 # Django dependencies
-django
-djangorestframework
+django==5.0.14
+djangorestframework==3.16.0
 
 # Basic dependencies
 asgiref==3.7.2
 pytz==2023.3.post1
 sqlparse==0.4.4
-python-dotenv
+python-dotenv==1.1.0
 
 # MongoDB dependencies
-pymongo
-django-mongodb-backend
+pymongo==4.12.0
+django-mongodb-backend==5.0.0b1
 
 # Redis dependencies
-redis
+redis==5.2.1
 
 # Groq dependencies
-groq
+groq==0.22.0
 
 # Deepgram dependencies
-deepgram-sdk
+deepgram-sdk==3.11.0
 
 # Other AI dependencies
-langchain-core
-langchain-groq
-langchain
-pydantic
+langchain-core==0.3.52
+langchain-groq==0.3.2
+langchain==0.3.23
+pydantic==2.11.3
 
 # Text-to-speech dependencies
 websockets==12.0

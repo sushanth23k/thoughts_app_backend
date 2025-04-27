@@ -42,21 +42,23 @@ def get_conversation(redis_client, conversation_id):
     """
     Retrieves a conversation from Redis
     """
-    return redis_client.get(conversation_id)
+    conversation = redis_client.get(conversation_id)
+    return json.loads(conversation)
 
 def get_thoughts(redis_client, conversation_id):
     """
     Retrieves thoughts from Redis
     """
-    return redis_client.get(conversation_id + "_thoughts")
+    thoughts = redis_client.get(conversation_id + "_thoughts")
+    return json.loads(thoughts)
 
-def store_conversation(redis_client, conversation_id, conversation):
+def store_conversation(redis_client, conversation_id, conversation: list):
     """
     Stores a conversation in Redis
     """
     redis_client.set(conversation_id, json.dumps(conversation))
 
-def store_thoughts(redis_client, conversation_id, thoughts):
+async def store_thoughts(redis_client, conversation_id, thoughts: list):
     """
     Stores thoughts in Redis
     """
