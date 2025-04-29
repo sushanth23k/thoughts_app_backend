@@ -12,4 +12,5 @@ urlpatterns = [
     path('tts', views.tts, name='tts'),
     path('start_conversation', views.start_conversation, name='start_conversation'),
     path('conversation_loop', views.conversation_loop, name='conversation_loop'),
+    path('stop_conversation', views.stop_conversation, name='stop_conversation'),
 ]

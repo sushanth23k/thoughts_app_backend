@@ -121,6 +121,12 @@ class Conversation:
 
             # Store the conversation in MongoDB
             print(nosql_db.store_conversation(self.db, conversation_id, conversation, thoughts))
+
+            output = {
+                "conversation_id": conversation_id
+            }
+            
+            return output
             
         except Exception as e:
             print(f"Error in end_conversation: {e}")

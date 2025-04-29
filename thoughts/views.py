@@ -236,3 +236,20 @@ def conversation_loop(request):
             "error": f"An error occurred: {str(e)}"
         }, status=500)
 
+# Stop Conversation
+@api_view(['GET'])
+def stop_conversation(request):
+    try:
+        # Get conversation ID
+        input_data = request.GET
+        conversation_id = input_data.get('conversation_id')
+
+        conversation_component = Conversation(deepgram_client, groq_client, redis_client, mg_client)
+        output = conversation_component.end_conversation(conversation_id)
+
+        return JsonResponse(output)
+    
+    except Exception as e:
+        return JsonResponse({
+            "error": f"An error occurred: {str(e)}"
+        }, status=500)
